@@ -7,6 +7,7 @@ ppdrifts <- c("CalCURSeas_Harbor - Copy", "OPPS_008 - Copy", "OPPS_010_NBHF - Co
 
 pp_mtc <- index_dbdir(ppdrifts, dbdir) %>%
   acoustudy(bindir, "pp", 384000, 100, 160) %>%
+  dplyr::filter(detectorName=="Click_Detector_101") %>%
   nbhfilter()
 
 usethis::use_data(pp_mtc, overwrite = TRUE)

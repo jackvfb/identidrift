@@ -12,7 +12,7 @@ index_dbdir(sp_drifts, dbdir)
 \item{dbdir}{File path to a database directory containing .sqlite3 files.}
 }
 \value{
-A character vector containing the full file paths to the sqlite3 files for each drift in \code{\link{sp_drifts}}.
+A character vector containing the full file paths to the sqlite3 files for each drift in \code{sp_drifts}.
 }
 \description{
 Helper function used to collect database files for forming a training data set.

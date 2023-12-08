@@ -3,7 +3,7 @@
 #' @param sp_drifts A character vector with the identifying names of the drifts of interest.
 #' @param dbdir File path to a database directory containing .sqlite3 files.
 #'
-#' @return A character vector containing the full file paths to the sqlite3 files for each drift in [`sp_drifts`].
+#' @return A character vector containing the full file paths to the sqlite3 files for each drift in \code{sp_drifts}.
 #' @export
 #'
 index_dbdir <- function(sp_drifts, dbdir) {
@@ -51,7 +51,6 @@ acoustudy <- function(db, bin, sp_id, sr, hip, lop) {
 #'
 nbhfilter <- function(study) {
   study %>%
-    dplyr::filter(study, detectorName=="Click_Detector_101") %>%
     dplyr::filter(study, duration<2) %>%
     dplyr::filter(study, BW_3dB < 4 | BW_3dB > 13)
   #Not implemented: filter to select detection on only one channel (1 or 2). Choose to maximize dBPP
