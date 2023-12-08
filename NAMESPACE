@@ -2,6 +2,8 @@
 
 export("%>%")
 export(acoustudy)
+export(best_clicks)
+export(eventbin)
 export(genspec)
 export(index_dbdir)
 export(nbhfilter)

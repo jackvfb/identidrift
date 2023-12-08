@@ -11,4 +11,4 @@ pd_man <- index_dbdir(pddrifts, dbdir) %>%
   # dplyr::filter(detectorName=="Click_Detector_5") %>%
   nbhfilter()
 
-usethis::use_data(pp_man, overwrite = TRUE)
+usethis::use_data(pd_man, overwrite = TRUE)

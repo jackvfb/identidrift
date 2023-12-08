@@ -50,10 +50,10 @@ acoustudy <- function(db, bin, sp_id, sr, hip, lop) {
 #' @export
 #'
 nbhfilter <- function(study) {
-  study %>%
-    dplyr::filter(study, duration<2) %>%
-    dplyr::filter(study, BW_3dB < 4 | BW_3dB > 13)
+  study <- filter(study, duration<2)
+  study <- filter(study, BW_3dB < 4 | BW_3dB > 13)
   #Not implemented: filter to select detection on only one channel (1 or 2). Choose to maximize dBPP
+  return(study)
 }
 
 #' Get click spectra
@@ -99,3 +99,23 @@ genspec <- function(study_spec) {
     dplyr::filter(freq >= 100000 & freq <= 160000)
 }
 
+#' Select channel with best click
+#'
+#' @param clicks Click data from an AcousticStudy with fields \code{dBPP} and \code{UID}.
+#'
+#' @return Reduced data with the loudest Channel chosen for each UID
+#' @export
+#'
+best_clicks <- function(clicks){
+  clicks %>%
+    dplyr::group_by(UID) %>%
+    dplyr::slice_max(dBPP, n=1) %>%
+    dplyr::ungroup()
+}
+
+rm_dup_ev <- function(study) {
+  evs <- names(events(study))
+  keep <- !duplicated(evs)
+  events(study) <- events(study)[keep]
+  return(study)
+}
