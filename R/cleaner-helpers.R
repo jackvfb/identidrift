@@ -49,8 +49,8 @@ acoustudy <- function(db, bin, sp_id, sr, hip, lop) {
 #' @return Study with (some) false positives removed.
 #' @export
 #'
-nbhfilter <- function(study) {
-  study <- filter(study, duration<2)
+rm_fps <- function(study) {
+  study <- filter(study, duration < 2)
   study <- filter(study, BW_3dB < 4 | BW_3dB > 13)
   #Not implemented: filter to select detection on only one channel (1 or 2). Choose to maximize dBPP
   return(study)
@@ -107,15 +107,28 @@ genspec <- function(study_spec) {
 #' @export
 #'
 best_clicks <- function(clicks){
-  clicks %>%
+  result <- clicks %>%
     dplyr::group_by(UID) %>%
     dplyr::slice_max(dBPP, n=1) %>%
-    dplyr::ungroup()
+    dplyr::ungroup() %>%
+    dplyr::distinct(UID)
 }
 
-rm_dup_ev <- function(study) {
+rm_dup_evs <- function(study) {
   evs <- names(events(study))
   keep <- !duplicated(evs)
   events(study) <- events(study)[keep]
+  return(study)
+}
+
+rm_dup_dets <- function(study) {
+  evs <- events(study)
+  #newevs <- vector(mode = "list")
+  for (i in seq_along(evs)) {
+    e <- evs[[i]]
+    detectors(e) <- detectors(e) <- detectors(e)[1]
+    evs[[i]] <- e
+  }
+  events(study) <- evs
   return(study)
 }
