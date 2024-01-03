@@ -112,6 +112,7 @@ best_clicks <- function(clicks){
     dplyr::slice_max(dBPP, n=1) %>%
     dplyr::ungroup() %>%
     dplyr::distinct(UID)
+  #add something to filter incomplete cases?
 }
 
 rm_dup_evs <- function(study) {
@@ -123,10 +124,9 @@ rm_dup_evs <- function(study) {
 
 rm_dup_dets <- function(study) {
   evs <- events(study)
-  #newevs <- vector(mode = "list")
   for (i in seq_along(evs)) {
     e <- evs[[i]]
-    detectors(e) <- detectors(e) <- detectors(e)[1]
+    detectors(e) <- detectors(e)[1]
     evs[[i]] <- e
   }
   events(study) <- evs
