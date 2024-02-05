@@ -2,7 +2,7 @@
 % Please edit documentation in R/cleaner-helpers.R
 \name{rm_fps}
 \alias{rm_fps}
-\title{Apply filters to NBHF study}
+\title{Apply filters to NBHF study -- DELETE??}
 \usage{
 rm_fps(study)
 }
@@ -13,5 +13,5 @@ rm_fps(study)
 Study with (some) false positives removed.
 }
 \description{
-Apply filters to NBHF study
+Apply filters to NBHF study -- DELETE??
 }

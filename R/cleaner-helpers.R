@@ -15,7 +15,7 @@ index_dbdir <- function(sp_drifts, dbdir) {
 #' Make an NBHF Acoustic Study
 #'
 #' @param db A character vector containing the file paths of the databases to be included in the study
-#' @param bin The path to the binaries directory
+#' @param bins The path to the binaries directory
 #' @param sp_id A string with the code to be used for the species
 #' @param sr Sample rate of the databases in herz (Hz)
 #' @param hip Hi pass filter (filter_from) in kHz
@@ -25,9 +25,9 @@ index_dbdir <- function(sp_drifts, dbdir) {
 #' @return An AcousticStudy that has been filtered from 100-160 kHz, with an assumed sample rate of 384 kHz.
 #' @export
 #'
-acoustudy <- function(db, bin, sp_id, sr, hip, lop) {
+NBHFstudy <- function(db, sp_id, bins, sr = 384000, hip = 100, lop = 160) {
   pps <- PAMpal::PAMpalSettings(db = db,
-                                binaries = bin,
+                                binaries = bins,
                                 sr_hz = sr,
                                 filterfrom_khz = hip,
                                 filterto_khz = lop,
@@ -42,7 +42,7 @@ acoustudy <- function(db, bin, sp_id, sr, hip, lop) {
   return(study)
 }
 
-#' Apply filters to NBHF study
+#' Apply filters to NBHF study -- DELETE??
 #'
 #' @param study Acoustic study that has not had its clicks filtered. The function will remove agreed-upon false positives.
 #'
@@ -106,7 +106,7 @@ genspec <- function(study_spec) {
 #' @return Reduced data with the loudest Channel chosen for each UID
 #' @export
 #'
-best_clicks <- function(clicks){
+choose_ch <- function(clicks){
   result <- clicks %>%
     dplyr::group_by(UID) %>%
     dplyr::slice_max(dBPP, n=1) %>%
@@ -115,6 +115,7 @@ best_clicks <- function(clicks){
   #add something to filter incomplete cases?
 }
 
+
 rm_dup_evs <- function(study) {
   evs <- names(events(study))
   keep <- !duplicated(evs)
@@ -122,11 +123,19 @@ rm_dup_evs <- function(study) {
   return(study)
 }
 
+#' Remove duplicate detectors from the events in an AcousticStudy, chosen to be the detector with the most detections
+#'
+#' @param study
+#'
+#' @return an acoustic study with just a single detector for each event
+#' @export
+#'
 rm_dup_dets <- function(study) {
   evs <- events(study)
   for (i in seq_along(evs)) {
     e <- evs[[i]]
-    detectors(e) <- detectors(e)[1]
+    myD <- which.max(lapply(detectors(e), nrow))
+    detectors(e) <- detectors(e)[myD]
     evs[[i]] <- e
   }
   events(study) <- evs
