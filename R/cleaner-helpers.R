@@ -56,49 +56,6 @@ rm_fps <- function(study) {
   return(study)
 }
 
-#' Get click spectra
-#'
-#' @param study AcousticStudy containing clicks whose spectra will be extracted
-#'
-#' @return data frame containing the spectrum for every single click in the study (both channels).
-#' @export
-#'
-studyspec <- function(study) {
-  evs <- 1:length(PAMpal::events(study))
-  l <- PAMpal::calculateAverageSpectra(study, evNum = evs, norm = TRUE)
-  m <- l$allSpec
-  df <- data.frame(m, row.names = l$freq)
-  colnames(df) <- l$UID
-  result <- df[,!duplicated(l$UID)]
-  return(result)
-}
-
-#' Make a generalized spectrum for plotting
-#'
-#' @param study_spec A dataframe that contains the spectra for all clicks in a study, generated using `getStudySpectra()`
-#'
-#' @return tibble with data for a "generalized spectrum" ready to plot
-#' @export
-#'
-genspec <- function(study_spec) {
-  study_spec %>%
-    #make into a tibble for ease of visualization
-    tibble::as_tibble(rownames = "freq") %>%
-    #pivot data to allow summary statistics to be generated for discrete frequencies
-    tidyr::pivot_longer(cols = -freq, names_to = "UID") %>%
-    #extra step since freq is chr
-    dplyr::mutate(freq = as.numeric(freq)) %>%
-    #group by frequency value to generate summary statistics
-    dplyr::group_by(freq) %>%
-    #variables needed are a central measure and an upper and lower conf. int.
-    # using interquartile range to represent confidence interval.
-    dplyr::summarize(mn = mean(value),
-              lci = quantile(value, probs = 0.25),
-              uci = quantile(value, probs = 0.75)) %>%
-    #frequency band of interest is 100 kHz to 160 kHz
-    dplyr::filter(freq >= 100000 & freq <= 160000)
-}
-
 #' Select channel with best click
 #'
 #' @param clicks Click data from an AcousticStudy with fields \code{dBPP} and \code{UID}.
@@ -108,10 +65,11 @@ genspec <- function(study_spec) {
 #'
 choose_ch <- function(clicks){
   result <- clicks %>%
+   # dplyr::mutate(UID=as.numeric(UID)) %>%
     dplyr::group_by(UID) %>%
     dplyr::slice_max(dBPP, n=1) %>%
     dplyr::ungroup() %>%
-    dplyr::distinct(UID)
+    dplyr::distinct(UID, .keep_all=TRUE)
   #add something to filter incomplete cases?
 }
 
@@ -130,12 +88,31 @@ rm_dup_evs <- function(study) {
 #' @return an acoustic study with just a single detector for each event
 #' @export
 #'
-rm_dup_dets <- function(study) {
+choose_max_det <- function(study) {
   evs <- events(study)
   for (i in seq_along(evs)) {
     e <- evs[[i]]
     myD <- which.max(lapply(detectors(e), nrow))
     detectors(e) <- detectors(e)[myD]
+    evs[[i]] <- e
+  }
+  events(study) <- evs
+  return(study)
+}
+
+#' Remove duplicate detectors from the events in an AcousticStudy, chosen by name match
+#'
+#' @param study
+#'
+#' @return an acoustic study with just a single detector for each event
+#' @export
+#'
+choose_named_det <- function(study, detectorName="Click_Detector_101") {
+  evs <- events(study)
+  for (i in seq_along(evs)) {
+    e <- evs[[i]]
+    choose <- grep(detectorName,names(detectors(e)))
+    detectors(e) <- detectors(e)[choose]
     evs[[i]] <- e
   }
   events(study) <- evs

@@ -3,7 +3,7 @@
 \docType{data}
 \name{nbhf_studies}
 \alias{nbhf_studies}
-\title{NBHF acoustic study}
+\title{NBHF acoustic studies}
 \format{
 An object of class \code{list} of length 3.
 }
