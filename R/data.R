@@ -10,3 +10,15 @@
 #' @description Data frame containing PAMpal click data for all clicks in the studies, all species included. The channel with the highest dBPP is chosen for each click
 #'
 "nbhf_clicks"
+
+#' Template match data
+#'
+#' @description Data frame containing MTC match scores for all clicks in the databases, prior to event definition
+#'
+"template"
+
+#' Recall/precision data
+#'
+#' @description Table of manually determined FP, TP, FN for all events in the training set. Meant as an evaluation of our event definition process
+#'
+"rp"

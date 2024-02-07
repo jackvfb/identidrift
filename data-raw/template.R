@@ -5,5 +5,5 @@ files <- list.files("C:/Users/jackv/Documents/thesis-data/TemplateData",
 names <- sapply(files, function (x) {str_remove(basename(x), "_Template.rds")})
 obj <- lapply(files, readRDS)
 names(obj) <- names
-template <- list_rbind(obj, names_to="db")
+template <- list_rbind(obj, names_to="db") %>% drop_na()
 usethis::use_data(template, overwrite = TRUE)
