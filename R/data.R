@@ -17,8 +17,14 @@
 #'
 "template"
 
-#' Recall/precision data
+#' #' Recall/precision data
+#' #'
+#' #' @description Table of manually determined FP, TP, FN for all events in the training set. Meant as an evaluation of our event definition process
+#' #'
+#' "rp"
+
+#' Template clicks
 #'
-#' @description Table of manually determined FP, TP, FN for all events in the training set. Meant as an evaluation of our event definition process
+#' @description Binary click data from databases for each template click
 #'
-"rp"
+"click_templates"

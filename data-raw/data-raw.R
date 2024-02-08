@@ -27,6 +27,20 @@ studies2 <- lapply(studies, rm_dup_evs)
 #choose just one detector
 nbhf_studies <- lapply(studies2, choose_named_det)
 
+#get binaries for chosen template clicks ALL FAKE CURRENTLY
+templates <- data.frame(species = c("ks", "pd", "pd", "pp"),
+                        tempNames = c("Ksp", "Pd_1", "Pd_2", "Pp"),
+                        UID = c(2812000015, 308000031, 308000030, 2000156))
+click_templates <- vector(mode="list")
+for (i in 1:4) {
+  thisSpecies <- templates$species[i]
+  thisUID <- templates$UID[i]
+  thisStudy <- nbhf_studies[[thisSpecies]]
+  thisClick <- getBinaryData(thisStudy, thisUID)
+  click_templates[i] <- thisClick
+}
+names(click_templates) <- templates$tempNames
+
 # get click Data
 nbhf_clicks <- lapply(nbhf_studies, getClickData)
 
@@ -36,3 +50,4 @@ nbhf_clicks <- list_rbind(lapply(nbhf_clicks, choose_ch))
 #save
 usethis::use_data(nbhf_studies, overwrite=TRUE)
 usethis::use_data(nbhf_clicks, overwrite=TRUE)
+usethis::use_data(click_templates, overwrite=TRUE)
