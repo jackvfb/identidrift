@@ -83,7 +83,7 @@ rm_dup_evs <- function(study) {
 
 #' Remove duplicate detectors from the events in an AcousticStudy, chosen to be the detector with the most detections
 #'
-#' @param study
+#' @param study AcousticStudy object
 #'
 #' @return an acoustic study with just a single detector for each event
 #' @export
@@ -102,7 +102,7 @@ choose_max_det <- function(study) {
 
 #' Remove duplicate detectors from the events in an AcousticStudy, chosen by name match
 #'
-#' @param study
+#' @param study AcousticStudy object
 #'
 #' @return an acoustic study with just a single detector for each event
 #' @export
