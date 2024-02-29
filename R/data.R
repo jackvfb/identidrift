@@ -11,6 +11,12 @@
 #'
 "train.ec"
 
+#' Training set -- gps data
+#'
+#' @description A list of data frames containing gps data for each drift in the training set, separated by species.
+#'
+"train.gps"
+
 #' Template match data
 #'
 #' @description Data frame containing MTC match scores for all clicks in the training set databases, prior to events being defined (i.e. match scores for both TPs and FPs)

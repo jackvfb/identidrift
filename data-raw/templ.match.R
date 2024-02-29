@@ -1,4 +1,4 @@
-## code to prepare `template` dataset goes here
+## code to prepare `templ.match` dataset goes here
 
 files <- list.files("C:/Users/jackv/Documents/thesis-data/TemplateData",
                     full.names=TRUE)

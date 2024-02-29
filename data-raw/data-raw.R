@@ -1,4 +1,4 @@
-## code to prepare `nbhf_studies` dataset goes here
+## code to prepare `train` dataset goes here
 
 #setup
 library(PAMpal)
