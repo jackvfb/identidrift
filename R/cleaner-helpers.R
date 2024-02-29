@@ -50,9 +50,8 @@ NBHFstudy <- function(db, sp_id, bins, sr = 384000, hip = 100, lop = 160) {
 #' @export
 #'
 rm_fps <- function(study) {
-  study <- filter(study, duration < 2)
-  study <- filter(study, BW_3dB < 4 | BW_3dB > 13)
-  #Not implemented: filter to select detection on only one channel (1 or 2). Choose to maximize dBPP
+  study <- filter(study, duration != 0)
+  # study <- filter(study, BW_3dB < 4 | BW_3dB > 13)
   return(study)
 }
 

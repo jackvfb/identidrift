@@ -24,6 +24,9 @@ studies <- mapply(NBHFstudy, db, names(db), MoreArgs = list(bins = bindir))
 #remove duplicate events
 studies2 <- lapply(studies, rm_dup_evs)
 
+#remove FPs
+studies2 <- lapply(studies, rm_fps)
+
 #choose just one detector
 nbhf_studies <- lapply(studies2, choose_named_det)
 
