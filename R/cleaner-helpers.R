@@ -99,6 +99,8 @@ choose_max_det <- function(study) {
   return(study)
 }
 
+#THIS IS A FAKE CHANGE
+
 #' Remove duplicate detectors from the events in an AcousticStudy, chosen by name match
 #'
 #' @param study AcousticStudy object
