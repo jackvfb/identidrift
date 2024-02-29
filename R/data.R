@@ -1,18 +1,18 @@
-#' NBHF acoustic studies
+#' Training set -- Acoustic Studies
 #'
-#' @description An acoustic study of drifts containing NBHF click detections presumed to come from Kogia spp., P. dalli, and P. phocoena.
-#' The events were defined using the MTC module in PAMguard using the script in LINK and have been labelled "TP" or "FP".
+#' @description An list of acoustic studies, one for each species class, containing ground-truthed NBHF click detections from Kogia spp., P. dalli, and P. phocoena.
+#' The events were defined using the MTC module in PAMguard.
 #'
-"nbhf_studies"
+"train"
 
-#' NBHF clicks
+#' Training set -- echolocation click data
 #'
-#' @description Data frame containing PAMpal click data for all clicks in the studies, all species included. The channel with the highest dBPP is chosen for each click
+#' @description Data frame containing PAMpal click data for all clicks in the training set, all species included. The channel with the highest dBPP is chosen for each click
 #'
-"nbhf_clicks"
+"train.ec"
 
 #' Template match data
 #'
-#' @description Data frame containing MTC match scores for all clicks in the databases, prior to event definition
+#' @description Data frame containing MTC match scores for all clicks in the training set databases, prior to events being defined (i.e. match scores for both TPs and FPs)
 #'
-"template"
+"templ.match"

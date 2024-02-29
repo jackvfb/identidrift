@@ -7,7 +7,7 @@
 choose_max_det(study)
 }
 \arguments{
-\item{study}{}
+\item{study}{AcousticStudy object}
 }
 \value{
 an acoustic study with just a single detector for each event
