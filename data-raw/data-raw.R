@@ -29,9 +29,6 @@ train <- lapply(train, choose_named_det)
 #remove clicks with duration == 0 which must be false positives
 train <- lapply(train, \(x) filter(x, duration!=0))
 
-#add ICI to events
-train <- lapply(train, calculateICI)
-
 # get echolocation click Data
 train.ec <- lapply(train, getClickData)
 
