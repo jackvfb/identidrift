@@ -1,6 +1,7 @@
 ## code to prepare `train.gps` dataset goes here
 
 #setup
+library(PAMpal)
 library(tidyverse)
 
 gpsFiles <- list.files("C:/Users/jackv/Documents/thesis-data/gps", pattern = ".csv", full.names = TRUE)
