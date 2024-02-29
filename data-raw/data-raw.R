@@ -1,9 +1,8 @@
 ## code to prepare `nbhf_studies` dataset goes here
-#
-# #setup -- is this section needed?
-# library(PAMpal)
-# library(tidyverse)
-# source('R/cleaner-helpers.R')
+
+#setup
+library(PAMpal)
+library(tidyverse)
 
 #get file structure
 basedir <- "C:/Users/jackv/Documents/thesis-data/TrainingData"
@@ -18,24 +17,27 @@ db <- list(ks = c("PG2_02_09_CCES_023_Ksp - Copy", "PG2_02_09_CCES_022_Ksp - Cop
 #full paths
 db <- lapply(db, index_dbdir, dbdir)
 
-#make NBHF studies
-studies <- mapply(NBHFstudy, db, names(db), MoreArgs = list(bins = bindir))
+#make acoustic studies from NBHF training set
+train <- mapply(NBHFstudy, db, names(db), MoreArgs = list(bins = bindir))
 
 #remove duplicate events
-studies2 <- lapply(studies, rm_dup_evs)
-
-#remove FPs
-studies2 <- lapply(studies, rm_fps)
+train <- lapply(train, rm_dup_evs)
 
 #choose just one detector
-nbhf_studies <- lapply(studies2, choose_named_det)
+train <- lapply(train, choose_named_det)
 
-# get click Data
-nbhf_clicks <- lapply(nbhf_studies, getClickData)
+#remove clicks with duration == 0 which must be false positives
+train <- lapply(train, \(x) filter(x, duration!=0))
+
+#add ICI to events
+train <- lapply(train, calculateICI)
+
+# get echolocation click Data
+train.ec <- lapply(train, getClickData)
 
 #choose channel with greatest dBPP
-nbhf_clicks <- list_rbind(lapply(nbhf_clicks, choose_ch))
+train.ec <- list_rbind(lapply(train.ec, choose_ch))
 
 #save
-usethis::use_data(nbhf_studies, overwrite=TRUE)
-usethis::use_data(nbhf_clicks, overwrite=TRUE)
+usethis::use_data(train, overwrite=TRUE)
+usethis::use_data(train.ec, overwrite=TRUE)

@@ -42,19 +42,6 @@ NBHFstudy <- function(db, sp_id, bins, sr = 384000, hip = 100, lop = 160) {
   return(study)
 }
 
-#' Apply filters to NBHF study -- DELETE??
-#'
-#' @param study Acoustic study that has not had its clicks filtered. The function will remove agreed-upon false positives.
-#'
-#' @return Study with (some) false positives removed.
-#' @export
-#'
-rm_fps <- function(study) {
-  study <- filter(study, duration != 0)
-  # study <- filter(study, BW_3dB < 4 | BW_3dB > 13)
-  return(study)
-}
-
 #' Select channel with best click
 #'
 #' @param clicks Click data from an AcousticStudy with fields \code{dBPP} and \code{UID}.
@@ -72,7 +59,13 @@ choose_ch <- function(clicks){
   #add something to filter incomplete cases?
 }
 
-
+#' Remove duplicate events in an AcousticStudy
+#'
+#' @param study AcousticStudy object
+#'
+#' @return an acoustic study with no duplicated events
+#' @export
+#'
 rm_dup_evs <- function(study) {
   evs <- names(events(study))
   keep <- !duplicated(evs)
@@ -99,11 +92,10 @@ choose_max_det <- function(study) {
   return(study)
 }
 
-#THIS IS A FAKE CHANGE
-
 #' Remove duplicate detectors from the events in an AcousticStudy, chosen by name match
 #'
 #' @param study AcousticStudy object
+#' @param detectorName String with the name of the detector you wish to retain
 #'
 #' @return an acoustic study with just a single detector for each event
 #' @export

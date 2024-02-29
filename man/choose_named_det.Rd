@@ -7,7 +7,9 @@
 choose_named_det(study, detectorName = "Click_Detector_101")
 }
 \arguments{
-\item{study}{}
+\item{study}{AcousticStudy object}
+
+\item{detectorName}{String with the name of the detector you wish to retain}
 }
 \value{
 an acoustic study with just a single detector for each event
