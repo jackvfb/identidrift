@@ -1,5 +1,7 @@
 ## code to prepare `templ.match` dataset goes here
 
+library(tidyverse)
+
 files <- list.files("C:/Users/jackv/Documents/thesis-data/TemplateData",
                     full.names=TRUE)
 names <- sapply(files, function (x) {str_remove(basename(x), "_Template.rds")})

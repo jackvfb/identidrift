@@ -4,12 +4,12 @@
 \alias{NBHFstudy}
 \title{Make an NBHF Acoustic Study}
 \usage{
-NBHFstudy(db, sp_id, bins, sr = 384000, hip = 100, lop = 160)
+NBHFstudy(db, id, bins, sr = 384000, hip = 100, lop = 160)
 }
 \arguments{
 \item{db}{A character vector containing the file paths of the databases to be included in the study}
 
-\item{sp_id}{A string with the code to be used for the species}
+\item{id}{A string for the study ID}
 
 \item{bins}{The path to the binaries directory}
 

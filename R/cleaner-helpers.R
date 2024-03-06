@@ -16,7 +16,7 @@ index_dbdir <- function(sp_drifts, dbdir) {
 #'
 #' @param db A character vector containing the file paths of the databases to be included in the study
 #' @param bins The path to the binaries directory
-#' @param sp_id A string with the code to be used for the species
+#' @param id A string for the study ID
 #' @param sr Sample rate of the databases in herz (Hz)
 #' @param hip Hi pass filter (filter_from) in kHz
 #' @param lop Low pass filter (filter_to) in kHz
@@ -25,7 +25,7 @@ index_dbdir <- function(sp_drifts, dbdir) {
 #' @return An AcousticStudy that has been filtered from 100-160 kHz, with an assumed sample rate of 384 kHz.
 #' @export
 #'
-NBHFstudy <- function(db, sp_id, bins, sr = 384000, hip = 100, lop = 160) {
+NBHFstudy <- function(db, id, bins, sr = 384000, hip = 100, lop = 160) {
   pps <- PAMpal::PAMpalSettings(db = db,
                                 binaries = bins,
                                 sr_hz = sr,
@@ -35,10 +35,8 @@ NBHFstudy <- function(db, sp_id, bins, sr = 384000, hip = 100, lop = 160) {
                                 )
   study <- PAMpal::processPgDetections(pps = pps,
                                        mode = "db",
-                                       id = sp_id
+                                       id = id
                                        )
-  study <- PAMpal::setSpecies(study, method="manual", value=sp_id)
-  #Not implemented: add GPS data?
   return(study)
 }
 
