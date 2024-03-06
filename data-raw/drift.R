@@ -10,15 +10,15 @@ bindir <- file.path(basedir, "binaries")
 dbdir <- file.path(basedir, "db")
 
 #db names
-db <- c("ADRIFT_042 - Copy.sqlite3", "ADRIFT_043 - Copy.sqlite3", "ADRIFT_044 - Copy.sqlite3")
-        # "ADRIFT_045 - Copy.sqlite3", "ADRIFT_046 - Copy.sqlite3", "ADRIFT_047 - Copy.sqlite3",
-        # "ADRIFT_048 - Copy.sqlite3", "ADRIFT_049 - Copy.sqlite3", "ADRIFT_050 - Copy.sqlite3",
-        # "ADRIFT_051 - Copy.sqlite3", "ADRIFT_052 - Copy.sqlite3", "ADRIFT_053 - Copy.sqlite3",
-        # "ADRIFT_054 - Copy.sqlite3", "ADRIFT_055 - Copy.sqlite3", "ADRIFT_057 - Copy.sqlite3",
-        # "ADRIFT_058 - Copy.sqlite3", "ADRIFT_059 - Copy.sqlite3", "ADRIFT_061 - Copy.sqlite3",
-        # "ADRIFT_062 - Copy.sqlite3", "ADRIFT_063 - Copy.sqlite3", "ADRIFT_065 - Copy.sqlite3",
-        # "ADRIFT_067 - Copy.sqlite3", "ADRIFT_070 - Copy.sqlite3", "ADRIFT_071 - Copy.sqlite3",
-        # "ADRIFT_072 - Copy.sqlite3", "ADRIFT_073 - Copy.sqlite3", "ADRIFT_075 - Copy.sqlite3")
+db <- c("ADRIFT_042 - Copy.sqlite3", "ADRIFT_043 - Copy.sqlite3", "ADRIFT_044 - Copy.sqlite3",
+        "ADRIFT_045 - Copy.sqlite3", "ADRIFT_046 - Copy.sqlite3", "ADRIFT_047 - Copy.sqlite3",
+        "ADRIFT_048 - Copy.sqlite3", "ADRIFT_049 - Copy.sqlite3", "ADRIFT_050 - Copy.sqlite3",
+        "ADRIFT_051 - Copy.sqlite3", "ADRIFT_052 - Copy.sqlite3", "ADRIFT_053 - Copy.sqlite3",
+        "ADRIFT_054 - Copy.sqlite3", "ADRIFT_055 - Copy.sqlite3", "ADRIFT_057 - Copy.sqlite3",
+        "ADRIFT_058 - Copy.sqlite3", "ADRIFT_059 - Copy.sqlite3", "ADRIFT_061 - Copy.sqlite3",
+        "ADRIFT_062 - Copy.sqlite3", "ADRIFT_063 - Copy.sqlite3", "ADRIFT_065 - Copy.sqlite3",
+        "ADRIFT_067 - Copy.sqlite3", "ADRIFT_070 - Copy.sqlite3", "ADRIFT_071 - Copy.sqlite3",
+        "ADRIFT_072 - Copy.sqlite3", "ADRIFT_073 - Copy.sqlite3", "ADRIFT_075 - Copy.sqlite3")
 names(db) <- db
 
 #full paths
@@ -63,8 +63,8 @@ find_gps <- function(file) {
 # areas. Meaning gps must be applied drift-wise.
 drift.gps <- lapply(drift, \(x) list_rbind(lapply(files(x)$db, find_gps)))
 
-#apply the GPS data to each drift
-drift <- mapply(\(x,y) addGps(x, gps=y), drift, drift.gps)
+#apply the GPS data to each drift, add thresh because some missing gps data in ADRIFT_048, leading to big time gap
+drift <- mapply(\(x,y) addGps(x, gps=y, thresh = 20000), drift, drift.gps)
 
 # get echolocation click Data
 drift.ec <- lapply(drift, getClickData)
