@@ -22,3 +22,21 @@ split_calls <- function(x) {
   x$detectors <- new_d
   return(x)
 }
+
+
+#' Make an NBHF classification banter model
+#'
+#' @param x Training formatted to initialize a banter model
+#' @param det_ntree Number of trees to use when growing the detector random forest
+#' @param ev_ntree Number of trees to use when growing the event random forest
+#'
+#' @return A banter model trained to classify NBHF clicks
+#' @export
+#'
+NBHF_banter <- function(x, det_ntree=1000, ev_ntree=1000) {
+  bantMdl <- banter::initBanterModel(x$events)
+  bantMdl <- banter::addBanterDetector(bantMdl, data=x$detectors, ntree=det_ntree,
+                                       importance=TRUE, sampsize = 0.5)
+  bantMdl <- banter::runBanterModel(bantMdl, ntree = ev_ntree, sampsize = 3)
+  return(bantMdl)
+}

@@ -11,11 +11,23 @@
 #'
 "train.ec"
 
-#' Training set -- gps data
+#' Survey GPS data
 #'
-#' @description A list of data frames containing gps data for each drift in the training set, separated by species.
+#' @description A list of data frames containing gps data for each drift in the survey.
 #'
-"train.gps"
+"drift.gps"
+
+#' Surveys for predicting classification -- Acoustic Studies
+#'
+#' @description A list of acoustic studies, one for each drift in the ADRIFT PAM survey.
+#'
+"drift"
+
+#' Novel data -- echolocation click data
+#'
+#' @description Data frame containing PAMpal click data for all clicks in the survey data set. The channel with the highest dBPP is chosen for each click
+#'
+"drift.ec"
 
 #' Template match data
 #'

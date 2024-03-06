@@ -5,7 +5,7 @@
 \alias{train.ec}
 \title{Training set -- echolocation click data}
 \format{
-An object of class \code{tbl_df} (inherits from \code{tbl}, \code{data.frame}) with 3994 rows and 33 columns.
+An object of class \code{tbl_df} (inherits from \code{tbl}, \code{data.frame}) with 3994 rows and 35 columns.
 }
 \usage{
 train.ec
