@@ -5,7 +5,7 @@
 \alias{drift}
 \title{Surveys for predicting classification -- Acoustic Studies}
 \format{
-An object of class \code{list} of length 3.
+An object of class \code{list} of length 27.
 }
 \usage{
 drift
