@@ -2,7 +2,7 @@
 % Please edit documentation in R/model.R
 \name{split_calls}
 \alias{split_calls}
-\title{Split a singular call type into multiple call types based on peak frequency, 6 bands (absolute)}
+\title{Split a singular call type into multiple call types based on peak frequency, 3 bands (breaks at 120, 140 kHz)}
 \usage{
 split_calls(x)
 }
@@ -10,8 +10,8 @@ split_calls(x)
 \item{x}{Data formatted to initialize a banter model, with a single call type}
 }
 \value{
-A banter-ready data object with six call types, instead of a singular call type
+A banter-ready data object with 3 call types, instead of a singular call type
 }
 \description{
-Split a singular call type into multiple call types based on peak frequency, 6 bands (absolute)
+Split a singular call type into multiple call types based on peak frequency, 3 bands (breaks at 120, 140 kHz)
 }

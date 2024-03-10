@@ -27,7 +27,7 @@ train <- lapply(train, \(x) setSpecies(x, method="manual", value=id(x)))
 train <- lapply(train, rm_dup_evs)
 
 #choose just one detector
-train <- lapply(train, choose_named_det)
+train <- lapply(train, drop_detectors, keep="Click_Detector_101")
 
 #remove clicks with duration == 0 which must be false positives
 train <- lapply(train, \(x) filter(x, duration!=0))

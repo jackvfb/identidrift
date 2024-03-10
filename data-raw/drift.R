@@ -31,7 +31,7 @@ drift <- lapply(db, NBHFstudy, id = "adrift", bins = bindir)
 drift <- lapply(drift, rm_dup_evs)
 
 #choose just one detector
-drift <- lapply(drift, choose_named_det)
+drift <- lapply(drift, drop_detectors, keep="Click_Detector_101")
 
 #remove FP events
 drift <- lapply(drift, \(x) filter(x, eventLabel == "NBHF"))
