@@ -93,16 +93,16 @@ choose_max_det <- function(study) {
 #' Remove duplicate detectors from the events in an AcousticStudy, chosen by name match
 #'
 #' @param study AcousticStudy object
-#' @param detectorName String with the name of the detector you wish to retain
+#' @param keep String with the name of the detector you wish to retain
 #'
 #' @return an acoustic study with just a single detector for each event
 #' @export
 #'
-choose_named_det <- function(study, detectorName="Click_Detector_101") {
+drop_detectors <- function(study, keep) {
   evs <- events(study)
   for (i in seq_along(evs)) {
     e <- evs[[i]]
-    choose <- grep(detectorName,names(detectors(e)))
+    choose <- grep(keep,names(detectors(e)))
     detectors(e) <- detectors(e)[choose]
     evs[[i]] <- e
   }

@@ -4,14 +4,18 @@
 \alias{NBHFbanter}
 \title{Make an NBHF classification banter model}
 \usage{
-NBHFbanter(x, det_ntree = 1000, ev_ntree = 1000)
+NBHFbanter(x, det_ntree, det_ss, ev_ntree, ev_ss)
 }
 \arguments{
 \item{x}{Training formatted to initialize a banter model}
 
 \item{det_ntree}{Number of trees to use when growing the detector random forest}
 
+\item{det_ss}{Sample size to use when growing the detector random forest}
+
 \item{ev_ntree}{Number of trees to use when growing the event random forest}
+
+\item{ev_ss}{Sample size to use when growing the event random forest}
 }
 \value{
 A banter model trained to classify NBHF clicks
