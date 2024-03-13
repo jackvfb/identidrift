@@ -11,26 +11,38 @@
 #'
 "train.ec"
 
-#' Survey GPS data
+#' Training set density clusters
 #'
-#' @description A list of data frames containing gps data for each drift in the survey.
+#' @description Density cluster object with sample of click data from each class in training set.
 #'
-"drift.gps"
+"train.clust"
 
-#' Surveys for predicting classification -- Acoustic Studies
+#' Training set density clusters assignments
 #'
-#' @description A list of acoustic studies, one for each drift in the ADRIFT PAM survey.
+#' @description Table with counts of each class in each cluster
 #'
-"drift"
-
-#' Novel data -- echolocation click data
-#'
-#' @description Data frame containing PAMpal click data for all clicks in the survey data set. The channel with the highest dBPP is chosen for each click
-#'
-"drift.ec"
+"train.clust.table"
 
 #' Template match data
 #'
 #' @description Data frame containing MTC match scores for all clicks in the training set databases, prior to events being defined (i.e. match scores for both TPs and FPs)
 #'
 "templ.match"
+
+#' Survey GPS data
+#'
+#' @description A list of data frames containing gps data for each drift in the survey.
+#'
+"drift.gps"
+
+#' Survey data ready for BANTER predictions
+#'
+#' @description Survey event and call data exported for predictions by the NBHF banter model
+#'
+"drift.bant"
+
+#' Survey raw click data
+#'
+#' @description Data frame containing PAMpal click data for all clicks in the survey data set. The channel with the highest dBPP is chosen for each click
+#'
+"drift.ec"
