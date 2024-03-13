@@ -4,6 +4,7 @@
 
 library(PAMpal)
 library(banter)
+library(tidyverse)
 
 # RAW DATA FILE STRUCTURE ---------------------------------------------------
 
@@ -67,3 +68,4 @@ train.ec <- list_rbind(lapply(train.ec, choose_ch))
 usethis::use_data(train, overwrite=TRUE)
 usethis::use_data(train.ec, overwrite=TRUE)
 usethis::use_data(nbhf.bant, overwrite=TRUE)
+install
