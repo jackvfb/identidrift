@@ -1,8 +1,12 @@
 ## code to prepare `drift` dataset goes here
 
-#setup
+# SETUP -------------------------------------------------------------------
+
 library(PAMpal)
+library(banter)
 library(tidyverse)
+
+# RAW DATA FILE STRUCTURE -------------------------------------------------
 
 #get file structure
 basedir <- "C:/Users/jackv/Documents/thesis-data/adrift"
@@ -24,6 +28,8 @@ names(db) <- db
 #full paths
 db <- lapply(db, index_dbdir, dbdir)
 
+# MAKE ACOUSTIC STUDIES ---------------------------------------------------
+
 #make acoustic study from drifter data
 drift <- lapply(db, NBHFstudy, id = "adrift", bins = bindir)
 
@@ -42,7 +48,7 @@ drift <- lapply(drift, \(x) filter(x, duration != 0))
 #add ICI to events
 drift <- lapply(drift, calculateICI)
 
-# ADD GPS -----------------------------------------------------------------
+# ADD GPS THEN EXPORT CLICK DATA -----------------------------------------------
 
 gpsFiles <- list.files("C:/Users/jackv/Documents/thesis-data/gps", pattern = ".csv", full.names = TRUE)
 gpsAll <- purrr::map(gpsFiles, read_csv, col_select = c("Latitude", "Longitude", "UTC", "DriftName", "seadepth"))
@@ -58,21 +64,45 @@ find_gps <- function(file) {
   }
 }
 
-# generate list of data frames with gps data corresponding to each drift. This is
-# necessary because drifts could have overlapping time yet be located in different
-# areas. Meaning gps must be applied drift-wise.
+# Generate list of data frames with gps data corresponding to each drift.
+# This was done this way because drifts could be chronologically overlapping.
+# So this was intended to apply gps drift-wise.
 drift.gps <- lapply(drift, \(x) list_rbind(lapply(files(x)$db, find_gps)))
 
-#apply the GPS data to each drift, add thresh because some missing gps data in ADRIFT_048, leading to big time gap
+#apply the GPS data to each drift
+# add thresh because some missing gps data in ADRIFT_048, leading to big time gap
 drift <- mapply(\(x,y) addGps(x, gps=y, thresh = 20000), drift, drift.gps)
 
-# get echolocation click Data
+# get click Data
 drift.ec <- lapply(drift, getClickData)
 
 #choose channel with greatest dBPP
 drift.ec <- list_rbind(lapply(drift.ec, choose_ch))
 
-#save
-usethis::use_data(drift, overwrite=TRUE)
+# EXPORT DATA FOR PREDICTIONS ------------------------------------------
+
+# export data for BANTER model
+drift.bant <- export_banter(bindStudies(drift),
+                            dropVars = "Click_Detector_101_ici")
+
+# split calls into putative call types
+drift.bant <- split_calls(drift.bant)
+
+# PREDICT -----------------------------------------------------------------
+
+predictions <- predict(bant, drift.bant)$predict.df
+
+locations <- drift.ec %>%
+  group_by(eventId) %>%
+  summarize(Latitude=median(Latitude),
+            Longitude=median(Longitude),
+            UTC=median(UTC))
+
+drift.predictions <- inner_join(locations, predictions, by=join_by("eventId"=="event.id")) %>%
+  mutate(db=str_extract(eventId, "\\w+_\\d+"))
+
+# SAVE --------------------------------------------------------------------
+
 usethis::use_data(drift.ec, overwrite=TRUE)
 usethis::use_data(drift.gps, overwrite = TRUE) #in case the complete paths are needed later.
+usethis::use_data(drift.predictions, overwrite = TRUE)

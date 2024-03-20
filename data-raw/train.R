@@ -1,8 +1,12 @@
 ## code to prepare `train` dataset goes here
 
-#setup
+# SETUP -------------------------------------------------------------------
+
 library(PAMpal)
+library(banter)
 library(tidyverse)
+
+# RAW DATA FILE STRUCTURE ---------------------------------------------------
 
 #get file structure
 basedir <- "C:/Users/jackv/Documents/thesis-data/TrainingData"
@@ -16,6 +20,9 @@ db <- list(ks = c("PG2_02_09_CCES_023_Ksp - Copy", "PG2_02_09_CCES_022_Ksp - Cop
 
 #full paths
 db <- lapply(db, index_dbdir, dbdir)
+
+
+# MAKE ACOUSTIC STUDIES ---------------------------------------------------
 
 #make acoustic studies from NBHF training set
 train <- mapply(NBHFstudy, db, names(db), MoreArgs = list(bins = bindir))
@@ -35,12 +42,19 @@ train <- lapply(train, \(x) filter(x, duration!=0))
 #add ICI to events
 train <- lapply(train, calculateICI)
 
-# get echolocation click Data
-train.ec <- lapply(train, getClickData)
+# TRAIN CLASSIFIER -------------------------------------------------------
 
-#choose channel with greatest dBPP
-train.ec <- list_rbind(lapply(train.ec, choose_ch))
+# export data for BANTER model
+mdl <- export_banter(bindStudies(train),
+                     dropVars = "Click_Detector_101_ici")
 
-#save
+# split calls into putative call types
+mdl <- split_calls(mdl)
+
+# train model
+bant <- NBHFbanter(mdl, 1000, 0.5, 1000, 0.5) #train model
+
+# SAVE --------------------------------------------------------------------
+
 usethis::use_data(train, overwrite=TRUE)
-usethis::use_data(train.ec, overwrite=TRUE)
+usethis::use_data(bant, overwrite = TRUE)

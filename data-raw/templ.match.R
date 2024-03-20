@@ -20,6 +20,7 @@ templ.match <- templ.match %>%
   pivot_longer(cols=ends_with("_match"), names_to = "best") %>%
   group_by(species) %>%
   group_by(UID) %>%
-  slice_max(value, n=1) #select highest single match score for each clicks
+  slice_max(value, n=1) %>%  #select highest single match score for each clicks
+  ungroup()
 
 usethis::use_data(templ.match, overwrite = TRUE)

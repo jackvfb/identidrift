@@ -3,7 +3,7 @@
 \docType{data}
 \name{drift.ec}
 \alias{drift.ec}
-\title{Novel data -- echolocation click data}
+\title{Survey raw click data}
 \format{
 An object of class \code{tbl_df} (inherits from \code{tbl}, \code{data.frame}) with 102464 rows and 38 columns.
 }

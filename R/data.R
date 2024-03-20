@@ -7,9 +7,28 @@
 
 #' Training set -- echolocation click data
 #'
-#' @description Data frame containing PAMpal click data for all clicks in the training set, all species included. The channel with the highest dBPP is chosen for each click
+#' @description Data frame containing PAMpal click data for all clicks in the training set, all species included. The channel with the highest dBPP is chosen for each click.
+#' A cluster is also assigned to each click based on density clustering.
 #'
 "train.ec"
+
+#' NBHF BANTER Classifier
+#'
+#' @description Classification model trained to classify NBHF events to three species classes, Kogia, Dall's, and harbor porpoise.
+#'
+"bant"
+
+#' NBHF Call Classifiers (Two flavors)
+#'
+#' @description List containing to random forest models trained on the same set of features. One is trained to classify species, and the other cluster.
+#'
+"call.rfs"
+
+#' Template match data
+#'
+#' @description Data frame containing MTC match scores for all clicks in the training set databases, prior to events being defined (i.e. match scores for both TPs and FPs)
+#'
+"templ.match"
 
 #' Survey GPS data
 #'
@@ -17,20 +36,14 @@
 #'
 "drift.gps"
 
-#' Surveys for predicting classification -- Acoustic Studies
+#' ADRIFT NBHF event predictions
 #'
-#' @description A list of acoustic studies, one for each drift in the ADRIFT PAM survey.
+#' @description The final deliverable associated with this thesis project.
 #'
-"drift"
+"drift.predictions"
 
-#' Novel data -- echolocation click data
+#' Survey raw click data
 #'
 #' @description Data frame containing PAMpal click data for all clicks in the survey data set. The channel with the highest dBPP is chosen for each click
 #'
 "drift.ec"
-
-#' Template match data
-#'
-#' @description Data frame containing MTC match scores for all clicks in the training set databases, prior to events being defined (i.e. match scores for both TPs and FPs)
-#'
-"templ.match"
