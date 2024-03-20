@@ -5,12 +5,13 @@
 \alias{train.ec}
 \title{Training set -- echolocation click data}
 \format{
-An object of class \code{tbl_df} (inherits from \code{tbl}, \code{data.frame}) with 3994 rows and 35 columns.
+An object of class \code{tbl_df} (inherits from \code{tbl}, \code{data.frame}) with 3994 rows and 36 columns.
 }
 \usage{
 train.ec
 }
 \description{
-Data frame containing PAMpal click data for all clicks in the training set, all species included. The channel with the highest dBPP is chosen for each click
+Data frame containing PAMpal click data for all clicks in the training set, all species included. The channel with the highest dBPP is chosen for each click.
+A cluster is also assigned to each click based on density clustering.
 }
 \keyword{datasets}

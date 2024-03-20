@@ -42,7 +42,7 @@ train <- lapply(train, \(x) filter(x, duration!=0))
 #add ICI to events
 train <- lapply(train, calculateICI)
 
-# MAKE BANTER MODEL -------------------------------------------------------
+# TRAIN CLASSIFIER -------------------------------------------------------
 
 # export data for BANTER model
 mdl <- export_banter(bindStudies(train),
@@ -52,20 +52,9 @@ mdl <- export_banter(bindStudies(train),
 mdl <- split_calls(mdl)
 
 # train model
-nbhf.bant <- NBHFbanter(mdl, 1000, 0.5, 1000, 0.5) #train model
-
-
-# GET CLICK DATA ----------------------------------------------------------
-
-train.ec <- lapply(train, getClickData)
-
-# choose channel with greatest dBPP
-train.ec <- list_rbind(lapply(train.ec, choose_ch))
-
+bant <- NBHFbanter(mdl, 1000, 0.5, 1000, 0.5) #train model
 
 # SAVE --------------------------------------------------------------------
 
 usethis::use_data(train, overwrite=TRUE)
-usethis::use_data(train.ec, overwrite=TRUE)
-usethis::use_data(nbhf.bant, overwrite=TRUE)
-install
+usethis::use_data(bant, overwrite = TRUE)

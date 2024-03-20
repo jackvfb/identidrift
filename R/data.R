@@ -7,21 +7,22 @@
 
 #' Training set -- echolocation click data
 #'
-#' @description Data frame containing PAMpal click data for all clicks in the training set, all species included. The channel with the highest dBPP is chosen for each click
+#' @description Data frame containing PAMpal click data for all clicks in the training set, all species included. The channel with the highest dBPP is chosen for each click.
+#' A cluster is also assigned to each click based on density clustering.
 #'
 "train.ec"
 
-#' Training set density clusters
+#' NBHF BANTER Classifier
 #'
-#' @description Density cluster object with sample of click data from each class in training set.
+#' @description Classification model trained to classify NBHF events to three species classes, Kogia, Dall's, and harbor porpoise.
 #'
-"train.clust"
+"bant"
 
-#' Training set density clusters assignments
+#' NBHF Call Classifiers (Two flavors)
 #'
-#' @description Table with counts of each class in each cluster
+#' @description List containing to random forest models trained on the same set of features. One is trained to classify species, and the other cluster.
 #'
-"train.clust.table"
+"call.rfs"
 
 #' Template match data
 #'
@@ -35,11 +36,11 @@
 #'
 "drift.gps"
 
-#' Survey data ready for BANTER predictions
+#' ADRIFT NBHF event predictions
 #'
-#' @description Survey event and call data exported for predictions by the NBHF banter model
+#' @description The final deliverable associated with this thesis project.
 #'
-"drift.bant"
+"drift.predictions"
 
 #' Survey raw click data
 #'

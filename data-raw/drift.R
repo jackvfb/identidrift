@@ -79,18 +79,30 @@ drift.ec <- lapply(drift, getClickData)
 #choose channel with greatest dBPP
 drift.ec <- list_rbind(lapply(drift.ec, choose_ch))
 
-# EXPORT DATA FOR BANTER PREDICTIONS ------------------------------------------
+# EXPORT DATA FOR PREDICTIONS ------------------------------------------
 
 # export data for BANTER model
 drift.bant <- export_banter(bindStudies(drift),
-                     dropVars = "Click_Detector_101_ici")
+                            dropVars = "Click_Detector_101_ici")
 
 # split calls into putative call types
 drift.bant <- split_calls(drift.bant)
 
+# PREDICT -----------------------------------------------------------------
+
+predictions <- predict(bant, drift.bant)$predict.df
+
+locations <- drift.ec %>%
+  group_by(eventId) %>%
+  summarize(Latitude=median(Latitude),
+            Longitude=median(Longitude),
+            UTC=median(UTC))
+
+drift.predictions <- inner_join(locations, predictions, by=join_by("eventId"=="event.id")) %>%
+  mutate(db=str_extract(eventId, "\\w+_\\d+"))
 
 # SAVE --------------------------------------------------------------------
 
 usethis::use_data(drift.ec, overwrite=TRUE)
 usethis::use_data(drift.gps, overwrite = TRUE) #in case the complete paths are needed later.
-usethis::use_data(drift.bant, overwrite=TRUE)
+usethis::use_data(drift.predictions, overwrite = TRUE)
