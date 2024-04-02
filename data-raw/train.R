@@ -42,19 +42,16 @@ train <- lapply(train, \(x) filter(x, duration!=0))
 #add ICI to events
 train <- lapply(train, calculateICI)
 
-# TRAIN CLASSIFIER -------------------------------------------------------
+#remove channel 2 detections from drifting buoy recordings for harbor porpoise
+e <- events(train$pp)
+for (i in str_which(names(e), "OPPS")){
+  e[[i]] <- filter(e[[i]], Channel == 2)
+}
+events(train$pp) <- e
 
-# export data for BANTER model
-mdl <- export_banter(bindStudies(train),
-                     dropVars = "Click_Detector_101_ici")
-
-# split calls into putative call types
-mdl <- split_calls(mdl)
-
-# train model
-bant <- NBHFbanter(mdl, 1000, 0.5, 1000, 0.5) #train model
+#remove channel 2 detections from drifting buoy recordings for kogia
+train$ks <- filter(train$ks, Channel==2)
 
 # SAVE --------------------------------------------------------------------
 
 usethis::use_data(train, overwrite=TRUE)
-usethis::use_data(bant, overwrite = TRUE)

@@ -48,6 +48,14 @@ drift <- lapply(drift, \(x) filter(x, duration != 0))
 #add ICI to events
 drift <- lapply(drift, calculateICI)
 
+# saveRDS(drift, "driftStudies.rds")
+# drift <- readRDS("driftStudies.rds")
+
+#filter out Ch 1 detections
+drift <- lapply(drift, \(x) filter(x, Channel==2))
+
+# saveRDS(drift, "driftStudies_ch2.rds")
+
 # ADD GPS THEN EXPORT CLICK DATA -----------------------------------------------
 
 gpsFiles <- list.files("C:/Users/jackv/Documents/thesis-data/gps", pattern = ".csv", full.names = TRUE)
@@ -74,10 +82,10 @@ drift.gps <- lapply(drift, \(x) list_rbind(lapply(files(x)$db, find_gps)))
 drift <- mapply(\(x,y) addGps(x, gps=y, thresh = 20000), drift, drift.gps)
 
 # get click Data
-drift.ec <- lapply(drift, getClickData)
+drift.ec <- list_rbind(lapply(drift, getClickData))
 
 #choose channel with greatest dBPP
-drift.ec <- list_rbind(lapply(drift.ec, choose_ch))
+#drift.ec <- list_rbind(lapply(drift.ec, choose_ch))
 
 # EXPORT DATA FOR PREDICTIONS ------------------------------------------
 
@@ -88,21 +96,8 @@ drift.bant <- export_banter(bindStudies(drift),
 # split calls into putative call types
 drift.bant <- split_calls(drift.bant)
 
-# PREDICT -----------------------------------------------------------------
-
-predictions <- predict(bant, drift.bant)$predict.df
-
-locations <- drift.ec %>%
-  group_by(eventId) %>%
-  summarize(Latitude=median(Latitude),
-            Longitude=median(Longitude),
-            UTC=median(UTC))
-
-drift.predictions <- inner_join(locations, predictions, by=join_by("eventId"=="event.id")) %>%
-  mutate(db=str_extract(eventId, "\\w+_\\d+"))
-
 # SAVE --------------------------------------------------------------------
 
 usethis::use_data(drift.ec, overwrite=TRUE)
 usethis::use_data(drift.gps, overwrite = TRUE) #in case the complete paths are needed later.
-usethis::use_data(drift.predictions, overwrite = TRUE)
+usethis::use_data(drift.bant, overwrite = TRUE)

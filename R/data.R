@@ -47,3 +47,9 @@
 #' @description Data frame containing PAMpal click data for all clicks in the survey data set. The channel with the highest dBPP is chosen for each click
 #'
 "drift.ec"
+
+#' Novel data for BANTER predictions
+#'
+#' @description Novel data formatted for NBHF BANTER predictions. Data derived from the ADRIFT acoustic survey, 2023.
+#'
+"drift.bant"

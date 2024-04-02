@@ -9,11 +9,12 @@ library(densityClust)
 
 # GET CLICK DATA ----------------------------------------------------------
 
-train.ec <- lapply(train, getClickData)
+# train.ec <- lapply(train, getClickData)
 
 # choose channel with greatest dBPP
-train.ec <- list_rbind(lapply(train.ec, choose_ch))
+# train.ec <- list_rbind(lapply(train.ec, choose_ch))
 
+train.ec <- list_rbind(lapply(train, getClickData))
 # ASSIGN TO CLUSTERS ------------------------------------------------------------------
 
 dist <- train.ec %>%
@@ -33,10 +34,10 @@ set.seed(123)
 
 # Perform density clustering
 train.clust <- densityClust(dist)
-train.clust <- findClusters(train.clust, rho=25, delta=2)
+train.clust <- findClusters(train.clust, rho=25, delta=5)
 
 # If figure needed
-# plotDensityClust(train.clust)
+plotDensityClust(train.clust)
 
 # Add cluster assignment to click data
 train.ec$clust <- train.clust$clusters
