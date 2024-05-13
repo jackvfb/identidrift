@@ -19,6 +19,7 @@ mdl <- split_calls(mdl)
 # train model
 bant <- NBHFbanter(mdl, 1000, 0.5, 10000, 0.5) #train model
 
+
 # Helpers for plot
 # p <- plotProximity(getBanterModel(bant))
 # p$g +

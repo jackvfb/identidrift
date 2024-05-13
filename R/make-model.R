@@ -9,7 +9,7 @@ split_calls <- function(x) {
   #get the singular detector
   d <- x$detectors$Click_Detector_101
   #create categorical "band" variable by subdividing all dectector data into three frequency bands
-  d <- mutate(d, band = cut(d$peak, breaks=c(120,140,160)))
+  d <- mutate(d, band = cut(d$peak, breaks=c(100,125,160)))
   # split detector data into three seperate data frames by band
   new_d <- d %>%
     nest(data = -band) %>%
@@ -17,7 +17,7 @@ split_calls <- function(x) {
     arrange(floor) %>%
     pull(data)
   # label bands
-  names(new_d) <- c("lorange", "midrange", "hirange")
+  names(new_d) <- c("lorange", "hirange")
   # replace detector with three bands
   x$detectors <- new_d
   return(x)
